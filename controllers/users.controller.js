@@ -1,5 +1,7 @@
 const { json } = require ('express');
 const userModel = require('../Models/users.models');
+const bcrypt = require('bcrypt');
+
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
@@ -102,26 +104,29 @@ exports.updateUser = async (req, res) => {
 }
 exports.inicioDeSesion = async (req, res)=> {
     try {
-        let data = req.body
-        let user = await userModel.FindOne({email: data.email})
-
-        if (user) {(user.contrasena === data.contrasena); {
-            let payload = {
-                id: user._id,
-                roll: user.roll,
-                nombre: `${user.nombre} ${user.apellido}`
-            }
-            let SECRET_KEY_JWT = process.env.SECRET_KEY_JWT
-            let token = jwt.sign(payload, SECRET_KEY_JWT, {expiresIn: '24h'})
-            res.status(200).send(token)
-        }
-
-        } else {
-            res.status(400).send({error:"Credenciales invalidas (correo)"})
-        }
+        let data = req.body;
+        let user = await userModel.findOne({ correo: data.correo });
+    
+        if (!user) return res.status(404).send({ msg:'Usuario no existe'});
+    
+        console.log(user);
+        const isMatch = await bcrypt.compare(data.contrasena, user.contrasena);
+        console.log(isMatch);
+    
+        if (!isMatch) return res.status(401).json({ msg: 'Contraseña incorrecta' });
+    
+        let payload = {
+            id: user._id,
+            nombre: user.correo,
+        };
+    
+        let SECRET_KEY_JWT = process.env.JWT_SECRET;
+        let token = jwt.sign(payload, SECRET_KEY_JWT, { expiresIn: '24h' });
+    
+        res.status(200).json({ token: token, roll: user.roll });
     } catch (error) {
         console.log(error);
-        res.status(500).send({error:"Ha ocurrido algo, comunicate con el admin"})
-        
+        res.status(500).send({ error: "Ha ocurrido algo, comunícate con el administrador" });
     }
+    
 }

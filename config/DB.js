@@ -11,8 +11,6 @@ const connectDB = async ()=> {
         console.log(error);
         console.log("No se pudo conectar a la base de datos!");
         
-        
-        
     }
 }
 

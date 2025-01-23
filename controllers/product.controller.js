@@ -4,14 +4,39 @@ require('dotenv').config()
 
 exports.allProducts = async (req,res) => {
     try {
-        let usuario = req.usuario // esto se agrega para usar el jwt
-        let data = await productsModel.find()
-        res.status(200).json(data);
+        let modelo = req.params.modelo
+        if (modelo) {
+            let data = await productsModel.find({modelo:{$regex:modelo,$options:'i'}})
+            res.status(200).json(data);
+        }else{
+            let dataProducts = await productsModel.find();
+            res.status(200).json(dataProducts);
+        }
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: "Se ha generado un error, comunícate con tu administrador" });
     }
 };
+
+exports.marca = async (req,res) => {
+    try {
+        let marca = req.params.marca
+        if (marca) {
+            let data = await productsModel.find({marca:{$regex:marca,$options:'i'}})
+            res.status(200).json(data);
+        }else{
+            let dataProducts = await productsModel.find();
+            res.status(200).json(dataProducts);
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Se ha generado un error, comunícate con tu administrador" });
+    }
+};
+
+
+
+
 
 exports.getOneProduct = async (req,res)=>{
     try {
