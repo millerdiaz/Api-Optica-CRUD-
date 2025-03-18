@@ -11,6 +11,7 @@ app.use('/api',router);
 conectDb();
 
 
-app.listen(PORT||2000,()=>{
+app.listen(PORT,()=>{
     console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });
+    

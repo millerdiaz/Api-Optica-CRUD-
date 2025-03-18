@@ -11,7 +11,7 @@ exports.getUsers = async(req, res)=> {
         let dataUsers = await userModel.find()
         res.json(dataUsers)
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
         res.send({error:"Información restringida"})
                
     }
@@ -26,6 +26,8 @@ exports.getOneUser = async (req, res)=> {
             res.status(400).send({error: "Usuario no registrado"})
         }
     } catch (error) {
+        console.log(error.message);
+        
         res.status(404).send({error:"No fue posible atender la solicitud, porfavor confirma la información introducida"})
     }
 
@@ -51,7 +53,7 @@ exports.addUsers = async(req, res)=> {
         res.status(200).json(creado)
        
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
         res.status(400).send({error:"Necesitas ayuda? contactanos"})
                 
     }
@@ -75,7 +77,7 @@ exports.deleteUser = async(req, res)=> {
        
         
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
         res.send({error:"Error"})
         
     }
@@ -98,7 +100,7 @@ exports.updateUser = async (req, res) => {
         res.status(200).json(updatedUser);
 
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
         res.status(500).json({ error: "Ha ocurrido un error al intentar actualizar la información del usuario" });
     }
 }
@@ -125,7 +127,7 @@ exports.inicioDeSesion = async (req, res)=> {
     
         res.status(200).json({ token: token, roll: user.roll });
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
         res.status(500).send({ error: "Ha ocurrido algo, comunícate con el administrador" });
     }
     

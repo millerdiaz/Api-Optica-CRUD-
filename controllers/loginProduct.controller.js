@@ -30,7 +30,7 @@ exports.login = async (req, res) => {
             res.status(500).send({error:"Credenciales invalidas(correo)"})
         }  
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
         res.status(500).send({error:"Ha ocurrido algo comunicate con el admin"})
     }
 }

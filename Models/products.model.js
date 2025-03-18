@@ -13,7 +13,7 @@ const productModel = mongoose.Schema({
         required:true
     },
     precio :{
-        type: String,
+        type: Number,
         required :true
     },
     genero :{

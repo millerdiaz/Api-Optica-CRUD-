@@ -1,6 +1,7 @@
 const express =  require('express');
 const router = express.Router();
 const productController = require('../controllers/product.controller');
+const citasController = require('../controllers/citas.Controller')
 const loginProductController = require('../controllers/loginProduct.controller')
 // const middlewareJwt  = require('../middleware/jwt');
 
@@ -32,4 +33,9 @@ router.put('/updateUser/:id', usersControllers.updateUser)
 router.post('/inicioDeSesion',usersControllers.inicioDeSesion)
 
 // router.get('/users', middlewareJWT.verificacionDeToken , usersControllers.getUsers)
+
+//Citas routes
+
+router.post('/addCita',citasController.addCita)
+
 module.exports =  router
